@@ -1,0 +1,41 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1753069282788,
+      "tag": "0000_lively_red_wolf",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1753140347314,
+      "tag": "0001_far_living_tribunal",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1753155211379,
+      "tag": "0002_true_chimera",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1753159047211,
+      "tag": "0003_square_earthquake",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1753306599316,
+      "tag": "0004_youthful_katie_power",
+      "breakpoints": true
+    }
+  ]
+}

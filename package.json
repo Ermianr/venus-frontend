@@ -1,0 +1,41 @@
+{
+    "name": "nuxt-app",
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "build": "nuxt build",
+        "dev": "nuxt dev",
+        "generate": "nuxt generate",
+        "preview": "nuxt preview",
+        "postinstall": "nuxt prepare",
+        "lint": "eslint .",
+        "lint:fix": "eslint --fix .",
+        "db:generate": "drizzle-kit generate",
+        "db:migrate": "drizzle-kit migrate"
+    },
+    "dependencies": {
+        "@compodium/nuxt": "0.1.0-beta.11",
+        "@iconify-json/lucide": "1.2.58",
+        "@iconify-json/simple-icons": "1.2.44",
+        "@node-rs/argon2": "2.0.2",
+        "@nuxt/kit": "4.0.1",
+        "@nuxt/ui": "3.2.0",
+        "@paralleldrive/cuid2": "2.2.2",
+        "@types/bun": "1.2.19",
+        "@vueuse/nuxt": "13.5.0",
+        "drizzle-kit": "0.31.4",
+        "drizzle-orm": "0.44.3",
+        "nuxt": "4.0.1",
+        "nuxt-auth-utils": "0.5.20",
+        "postgres": "3.4.7",
+        "vue": "^3.5.0",
+        "zod": "4.0.5"
+    },
+    "devDependencies": {
+        "@nuxt/eslint": "1.7.0",
+        "eslint": "9.31.0",
+        "eslint-config-prettier": "10.1.8",
+        "prettier": "3.6.2",
+        "typescript": "5.8.3"
+    }
+}
