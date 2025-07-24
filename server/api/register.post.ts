@@ -8,8 +8,9 @@ export default defineEventHandler(async (event) => {
 
     if (!result.success) {
         throw createError({
-            status: 400,
-            statusMessage: "Datos inválidos",
+            statusCode: 400,
+            statusMessage: "Bad request",
+            message: "Datos inválidos",
         });
     }
 
@@ -26,10 +27,10 @@ export default defineEventHandler(async (event) => {
             ...userData,
             dateBirth: new Date(dateBirth),
         };
-        const newUser = await createUser.execute(userWithDate);
+        await createUser.execute(userWithDate);
         setResponseStatus(event, 201, "Usuario creado correctamente");
         return {
-            user: newUser[0],
+            success: true,
         };
     } catch (err: unknown) {
         const error = err as DrizzleError;
@@ -38,29 +39,29 @@ export default defineEventHandler(async (event) => {
         if (postgresErr?.code === "23505") {
             if (postgresErr?.constraint_name === "users_email_unique") {
                 throw createError({
-                    status: 409,
-                    statusMessage: "El email ya esta registrado",
-                    data: { campo: "Email" },
+                    statusCode: 409,
+                    statusMessage: "Conflict",
+                    data: { field: "Email" },
                 });
             }
 
             if (postgresErr?.constraint_name === "users_username_unique") {
                 throw createError({
-                    status: 409,
-                    statusMessage: "El nombre de usuario ya esta registrado",
-                    data: { campo: "Nombre de usuario" },
+                    statusCode: 409,
+                    statusMessage: "Conflict",
+                    data: { field: "Nombre de usuario" },
                 });
             }
 
             throw createError({
-                status: 409,
-                statusMessage: "Ya existe un registro con estos datos",
+                statusCode: 409,
+                statusMessage: "Conflict",
             });
         }
 
         throw createError({
-            status: 500,
-            statusMessage: "Error interno en el servidor",
+            statusCode: 500,
+            statusMessage: "Internal Server Error",
         });
     }
 });
