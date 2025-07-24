@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { NuxtError } from "#app";
 import { UserSchema } from "#shared/schemas/user";
 import type { FormError, FormSubmitEvent } from "@nuxt/ui";
 import type * as z from "zod";
@@ -33,34 +34,35 @@ async function onSubmit(event: FormSubmitEvent<UserType>) {
         return;
     }
 
-    await $fetch("/api/register", {
-        method: "POST",
-        body: result.data,
-        onResponse({ response }) {
-            if (response.status === 201) {
-                toast.add({
-                    title: "Datos correctos",
-                    description: "Por favor ingrese a la plataforma :)",
-                    color: "success",
-                });
-            }
-        },
-        onResponseError({ response }) {
-            if (response?.status === 409) {
-                toast.add({
-                    title: "Error duplicidad de datos",
-                    description: response.statusText,
-                    color: "error",
-                });
-            } else {
-                toast.add({
-                    title: "Error en el servidor",
-                    description: response.statusText,
-                    color: "error",
-                });
-            }
-        },
-    });
+    try {
+        const response = await $fetch("/api/login", {
+            method: "POST",
+            body: result.data,
+        });
+
+        if (response.success) {
+            toast.add({
+                title: "Datos correctos",
+                description: "Por favor ingrese a la plataforma :)",
+                color: "success",
+            });
+        }
+    } catch (err: unknown) {
+        const error = err as NuxtError;
+        if (error.statusCode === 409) {
+            toast.add({
+                title: "Credenciales inválidas",
+                description: "Email o nombre de usuario en uso",
+                color: "error",
+            });
+        } else {
+            toast.add({
+                title: "Error del servidor",
+                description: "Error interno del servidor",
+                color: "error",
+            });
+        }
+    }
 }
 </script>
 
