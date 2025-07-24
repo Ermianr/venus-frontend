@@ -16,9 +16,11 @@ const { status, send } = useWebSocket(`ws://${url.hostname}:${url.port}/ws/chat`
 });
 
 function sendMessage() {
-    const messageSended = messageState.value.trim();
-    send(JSON.stringify({ type: "text", content: messageSended }));
-    messageState.value = "";
+    if (messageState.value.trim()) {
+        const messageSended = messageState.value.trim();
+        send(JSON.stringify({ type: "text", content: messageSended }));
+        messageState.value = "";
+    }
 }
 onMounted(async () => {
     const response = await $fetch<MessageDB[]>("/api/message", {
