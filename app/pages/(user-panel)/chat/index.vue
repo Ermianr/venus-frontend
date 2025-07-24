@@ -5,25 +5,26 @@ definePageMeta({
     middleware: ["authenticated"],
 });
 const { user, clear, loggedIn } = useUserSession();
-const messages = ref<string[]>([]);
-const message = ref<string>("");
+const messagesState = ref<string[]>([]);
+const messageState = ref<string>("");
+const url = useRequestURL();
 
-const { status, send } = useWebSocket(`ws://localhost:3000/ws/chat`, {
+const { status, send } = useWebSocket(`ws://${url.hostname}:${url.port}/ws/chat`, {
     onMessage(_, event) {
-        messages.value.push(event.data);
+        messagesState.value.push(event.data);
     },
 });
 
 function sendMessage() {
-    const msg = message.value.trim();
-    send(JSON.stringify({ type: "text", content: msg }));
-    message.value = "";
+    const messageSended = messageState.value.trim();
+    send(JSON.stringify({ type: "text", content: messageSended }));
+    messageState.value = "";
 }
 onMounted(async () => {
     const response = await $fetch<MessageDB[]>("/api/message", {
         method: "GET",
     });
-    response.map((msg) => messages.value.push(`[${msg.user.username}]: ${msg.content}`));
+    response.map((msg) => messagesState.value.push(`[${msg.user.username}]: ${msg.content}`));
 });
 </script>
 
@@ -34,12 +35,12 @@ onMounted(async () => {
         <br />
         <p>{{ status }}</p>
         <input
-            v-model="message"
+            v-model="messageState"
             placeholder="Escribe un mensaje"
             @keydown.enter.prevent="sendMessage"
         />
         <ul>
-            <li v-for="(msg, i) in messages" :key="i">{{ msg }}</li>
+            <li v-for="(msg, i) in messagesState" :key="i">{{ msg }}</li>
         </ul>
     </div>
 </template>
