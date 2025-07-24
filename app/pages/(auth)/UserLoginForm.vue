@@ -41,8 +41,6 @@ async function onSubmit(event: FormSubmitEvent<UserLoginType>) {
         }
     } catch (err: unknown) {
         const error = err as NuxtError;
-        console.log("Error:", error);
-
         if (error.statusCode === 404 || error.statusCode === 401) {
             toast.add({
                 title: "Credenciales inválidas",
@@ -68,7 +66,7 @@ async function onSubmit(event: FormSubmitEvent<UserLoginType>) {
 
 <template>
     <UForm :schema="UserLoginSchema" :state="state" class="flex flex-col gap-4" @submit="onSubmit">
-        <UFormField label="Correo Electrónico" name="name">
+        <UFormField label="Correo Electrónico" name="email">
             <UInput v-model="state.email" class="w-full" type="email" />
         </UFormField>
         <UFormField label="Contraseña" name="password">
