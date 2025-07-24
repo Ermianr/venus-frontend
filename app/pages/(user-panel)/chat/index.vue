@@ -13,6 +13,15 @@ const { status, send } = useWebSocket(`ws://${url.hostname}:${url.port}/ws/chat`
     onMessage(_, event) {
         messagesState.value.push(event.data);
     },
+    heartbeat: {
+        message: JSON.stringify({ type: "ping", content: "ping" }),
+        interval: 30_000,
+        pongTimeout: 10_000,
+    },
+    autoReconnect: {
+        retries: 10,
+        delay: 5000,
+    },
 });
 
 function sendMessage() {
