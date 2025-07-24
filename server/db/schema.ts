@@ -1,6 +1,6 @@
 import { createId } from "@paralleldrive/cuid2";
 import { relations } from "drizzle-orm";
-import { date, pgTable, serial, text, timestamp } from "drizzle-orm/pg-core";
+import { date, index, pgTable, serial, text, timestamp } from "drizzle-orm/pg-core";
 
 export const usersTable = pgTable("users", {
     id: text().primaryKey().$default(createId),
@@ -16,13 +16,17 @@ export const userRelations = relations(usersTable, ({ many }) => ({
     messages: many(messagesTable),
 }));
 
-export const messagesTable = pgTable("messages", {
-    id: serial("id").primaryKey(),
-    content: text().notNull(),
-    userId: text().references(() => usersTable.id),
-    room: text().notNull(),
-    createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
-});
+export const messagesTable = pgTable(
+    "messages",
+    {
+        id: serial("id").primaryKey(),
+        content: text().notNull(),
+        userId: text().references(() => usersTable.id),
+        room: text().notNull(),
+        createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+    },
+    (table) => [index().on(table.room)]
+);
 
 export const messageRelations = relations(messagesTable, ({ one }) => ({
     user: one(usersTable, {
