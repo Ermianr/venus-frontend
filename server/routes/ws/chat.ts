@@ -16,7 +16,7 @@ export default defineWebSocketHandler({
 
         if (!messageReceived.success) {
             return;
-        } else {
+        } else if (messageReceived.data.type === "text") {
             await $fetch("/api/message", {
                 method: "POST",
                 body: {
