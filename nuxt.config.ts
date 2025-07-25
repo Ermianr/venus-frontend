@@ -6,6 +6,7 @@ export default defineNuxtConfig({
     css: ["~/assets/css/main.css"],
     compatibilityDate: "2025-07-16",
     nitro: {
+        node: true,
         experimental: {
             websocket: true,
         },
