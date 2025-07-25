@@ -22,6 +22,7 @@ const { status, send } = useWebSocket(`ws://${url.hostname}:${url.port}/ws/chat`
         retries: 10,
         delay: 5000,
     },
+    protocols: ["permessage-deflate"]
 });
 
 function sendMessage() {
@@ -35,7 +36,7 @@ onMounted(async () => {
     const response = await $fetch<MessageDB[]>("/api/message", {
         method: "GET",
     });
-    response.map((msg) => messagesState.value.push(`[${msg.user.username}]: ${msg.content}`));
+    response.forEach((msg) => messagesState.value.push(`[${msg.user.username}]: ${msg.content}`));
 });
 </script>
 
