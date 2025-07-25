@@ -25,9 +25,12 @@
         "@vueuse/nuxt": "13.5.0",
         "drizzle-kit": "0.31.4",
         "drizzle-orm": "0.44.3",
+        "fflate": "^0.8.2",
         "nuxt": "4.0.1",
         "nuxt-auth-utils": "0.5.20",
         "postgres": "3.4.7",
+        "socket.io": "^4.8.1",
+        "uWebSockets.js": "uNetworking/uWebSockets.js#v20.4.0",
         "vue": "^3.5.0",
         "zod": "4.0.5"
     },
