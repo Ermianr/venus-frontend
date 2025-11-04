@@ -1,7 +1,27 @@
 import { createAuthClient } from "better-auth/react";
 
 export const authClient = createAuthClient({
-  baseURL: "http://localhost:4000/api/auth",
+  baseURL: "http://localhost:3000",
+  plugins: [
+    {
+      id: "next-cookies-request",
+      fetchPlugins: [
+        {
+          id: "next-cookies-request-plugin",
+          name: "next-cookies-request-plugin",
+          hooks: {
+            async onRequest(ctx) {
+              if (typeof window === "undefined") {
+                const { cookies } = await import("next/headers");
+                const headers = await cookies();
+                ctx.headers.set("cookie", headers.toString());
+              }
+            },
+          },
+        },
+      ],
+    },
+  ],
 });
 
 type ErrorTypes = Partial<
@@ -21,7 +41,7 @@ const errorCodes = {
     es: "Este usuario no existe.",
   },
   INVALID_EMAIL_OR_PASSWORD: {
-    es: "El correo electrónico ingresado es invalido.",
+    es: "El correo electrónico o la contraseña son incorrectos.",
   },
 } satisfies ErrorTypes;
 

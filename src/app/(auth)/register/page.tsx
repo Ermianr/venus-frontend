@@ -1,6 +1,8 @@
 import { RegisterForm } from "@/features/auth/components/register-form";
+import { requireUnauth } from "@/lib/auth-validator";
 
-function RegisterPage() {
+async function RegisterPage() {
+  await requireUnauth();
   return <RegisterForm />;
 }
 

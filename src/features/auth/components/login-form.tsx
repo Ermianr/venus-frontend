@@ -64,7 +64,6 @@ export function LoginForm() {
         },
         onError: (context) => {
           toast.error(getErrorMessage(context.error.code, "es"));
-          console.log(context.error.code);
         },
       },
     );
